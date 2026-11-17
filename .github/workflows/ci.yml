@@ -1,4 +1,4 @@
-# Seeded by the Software Factory's C7 [real] test (tests/support/sandbox.ts).
+# Seeded by the Software Factory's [real] tests (tests/support/sandbox.ts).
 name: ci
 on:
   pull_request:
@@ -18,3 +18,16 @@ jobs:
       - run: npm install --no-audit --no-fund
       - run: npm run typecheck
       - run: npm test
+  rerun-probe:
+    name: rerun-probe
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fail the first attempt when the rerun probe is present
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          if [ -f rerun-probe.txt ] && [ "$RUN_ATTEMPT" = "1" ]; then
+            echo "rerun-probe.txt is present: failing attempt 1 on purpose"
+            exit 1
+          fi
