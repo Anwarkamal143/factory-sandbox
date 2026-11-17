@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { add, sum } from '../src/math.js';
+import { add, difference, sum } from '../src/math.js';
 
 it('adds two numbers', () => {
   expect(add(2, 3)).toBe(5);
@@ -23,4 +23,24 @@ it('sums exactly representable decimals', () => {
 
 it('sums large integers', () => {
   expect(sum(1e15, 1)).toBe(1000000000000001);
+});
+
+it('subtracts two numbers', () => {
+  expect(difference(5, 3)).toBe(2);
+});
+
+it('subtracts in argument order, yielding a negative result', () => {
+  expect(difference(2, 5)).toBe(-3);
+});
+
+it('subtracts zeros', () => {
+  expect(difference(0, 0)).toBe(0);
+});
+
+it('subtracts exactly representable decimals', () => {
+  expect(difference(0.75, 0.25)).toBe(0.5);
+});
+
+it('subtracts large integers', () => {
+  expect(difference(1e15 + 1, 1)).toBe(1e15);
 });
